@@ -1,0 +1,1 @@
+nohup python3 wrapper_cutout.py --n_threads 16 --zoom_level 0 --out_jpg_folder /home/pataki/patho_scientificdata/patched_data/ --out_meta_folder /home/pataki/patho_scientificdata/patched_data/ --meta_file /home/pataki/patho_scientificdata/global_metadata.csv > cutout_logs 2>&1 &
