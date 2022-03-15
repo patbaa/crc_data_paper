@@ -14,13 +14,13 @@ parser = argparse.ArgumentParser()
 
 parser.add_argument('--zoom_level', type=int, required=True)
 
-parser.add_argument('--meta_file', type=Path)
-
 parser.add_argument('--out_jpg_folder', type=Path, required=True)
 
 parser.add_argument('--out_meta_folder', type=Path, required=True)
                     
 parser.add_argument('--n_threads', type=int, default=8)
+
+parser.add_argument('--data_path', type=Path, required=True)
 
 args = parser.parse_args()
 
@@ -29,15 +29,14 @@ args.out_meta_folder.mkdir(parents=True, exist_ok=True)
 ################################################################################
 
 
-meta = pd.read_csv(args.meta_file, dtype={'slideID': object})
-githubdir = '/home/pataki/patho_scientificdata/'
-meta['slideID'] = githubdir + 'mrxs_data/img/' +  meta.slideID.values + '.mrxs'
-print(f'{len(meta)} files will be processed')
+slideIDs = [str(i).zfill(3) for i in range(1, 201)]
+mrxs_files = [args.data_path.as_posix() + '/slides/' + i + '.mrxs' for i in slideIDs]
+print(f'{len(mrxs_files)} files will be processed')
 
 # full path to the mrxs file
 def call_cutout(mrxs):
     fname   = Path(mrxs).stem
-    masks = githubdir + 'mrxs_data/qupath_project/masks/'
+    masks = args.data_path.as_posix() + '/qupath_project/masks/'
     
     os.system((f'python3 mrxs_patcher.py --crop_size {512} '
                f'--out_meta {args.out_meta_folder.as_posix()} '
@@ -47,4 +46,4 @@ def call_cutout(mrxs):
                f'--zoom_level {args.zoom_level}'))
 
 with Pool(args.n_threads) as p:
-    p.map(call_cutout, meta.slideID.values)
+    p.map(call_cutout, mrxs_files)

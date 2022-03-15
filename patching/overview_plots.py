@@ -8,16 +8,14 @@ import matplotlib.pyplot as plt
 
 parser = argparse.ArgumentParser()
 
-parser.add_argument('--meta_csv', type=Path, 
-                    default='/home/pataki/patho_scientificdata/global_metadata.csv')
-parser.add_argument('--csv_path', type=Path, 
-                    default='/home/pataki/patho_scientificdata/patched_data/')
+parser.add_argument('--data_path', type=Path, required=True)
+parser.add_argument('--csv_path', type=Path, required=True)
 
 args = parser.parse_args()
 
 ################################################################################
 
-meta = pd.read_csv(args.meta_csv.as_posix(), dtype={'slideID':str})
+slideIDs = [str(i).zfill(3) for i in range(1, 201)]
 
 mask_to_colors = {'lowgrade_dysplasia':     'blue',
                   'highgrade_dysplasia':    'orange',
@@ -41,7 +39,7 @@ def parse_mask(maskfile):
 
 def get_screenshot(fname, border=1):
     scale = 0.01
-    annot = Path(fname).parent.glob(f'{Path(fname).stem.replace("shot_", "")}_annot*')
+    annot = Path(fname).parent.parent.glob(f'masks/{Path(fname).stem.replace("shot_", "")}_annot*')
     coords = parse_mask(list(annot)[0].stem)
     data = plt.imread(fname)
     
@@ -60,11 +58,8 @@ def get_screenshot(fname, border=1):
 # '/home/pataki/patho_scientificdata/patched_data/001_labels.csv'
 def plot_wrapper(fname):
     ID = fname.stem.split('_')[0]
-    screenshot_fname = f'/home/pataki/patho_scientificdata/mrxs_data/qupath_project/masks/shot_{ID}.jpg'
-    
-    #if Path(fname.parents[0].joinpath(f'overview_figures/{ID}.png')).exists():
-    #    return 0
-                                    
+    screenshot_fname = f'{args.data_path.as_posix()}/qupath_project/screenshots/shot_{ID}.png'
+                                        
     screen_img, coords = get_screenshot(screenshot_fname)
     df = pd.read_csv(fname)                                
                                     
