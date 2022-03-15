@@ -1,0 +1,3 @@
+python create_folds.py --zoom_level 0 --csv_folder /mnt/local/scratch_sata_stripe/scratch/pataki/scientificdata_to_be_submitted_revision/patches/zoom_0
+python create_folds.py --zoom_level 1 --csv_folder /mnt/local/scratch_sata_stripe/scratch/pataki/scientificdata_to_be_submitted_revision/patches/zoom_1
+python create_folds.py --zoom_level 2 --csv_folder /mnt/local/scratch_sata_stripe/scratch/pataki/scientificdata_to_be_submitted_revision/patches/zoom_2
