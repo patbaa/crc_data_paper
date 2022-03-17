@@ -45,10 +45,10 @@ parser.add_argument("--log_dir", type=Path, help="Directory for logs",
 parser.add_argument("--epoch_frac", type=int, default=1, 
                     help="Divident for step per epoch")
 
-parser.add_argument("--epochs", type=int, help="Number of epochs", default=10)
+parser.add_argument("--epochs", type=int, help="Number of epochs", default=15)
 
 parser.add_argument('--lr', type=list, help='Learning rates for each epoch', 
-                    default=[1e-3]*5 + [1e-4]*5)
+                    default=[1e-3]*10 + [1e-4]*5)
 
 parser.add_argument('--batch_size', type=list, help='Batch size', 
                     default=16)
