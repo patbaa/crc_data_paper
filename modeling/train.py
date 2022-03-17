@@ -5,7 +5,6 @@ import sys
 sys.path.remove('/home/pataki/.local/lib/python3.6/site-packages')
 
 import os
-import json
 import ctypes
 import argparse
 import numpy as np
